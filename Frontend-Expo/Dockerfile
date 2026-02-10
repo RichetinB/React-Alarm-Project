@@ -5,10 +5,13 @@ EXPOSE 19001
 EXPOSE 19002
 
 WORKDIR /usr/app
-COPY ./ ./
+
+# Install dependencies first (will be cached if package.json doesn't change)
+COPY package*.json ./
 RUN npm install
 
+# Install expo-cli globally
 RUN npm install --global expo-cli
 
-# Set up a default command
-CMD [ "npx", "expo", "start" ]
+# Don't copy code - use volumes for hot reload in development
+CMD [ "npx", "expo", "start", "--clear" ]
