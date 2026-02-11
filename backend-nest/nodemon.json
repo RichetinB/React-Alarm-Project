@@ -3,5 +3,8 @@
   "ext": "ts,json",
   "ignore": ["dist", "node_modules"],
   "legacyWatch": true,
+  "polling": true,
+  "pollingInterval": 1000,
+  "verbose": true,
   "exec": "ts-node -r tsconfig-paths/register src/main.ts"
 }
