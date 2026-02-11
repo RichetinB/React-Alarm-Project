@@ -32,14 +32,21 @@ services:
    backend:
       container_name: backend-container
       build: ./backend-nest/
+      env_file: .env
       ports:
          - 3000:3000
       volumes:
          - ./backend-nest/:/usr/app 
-         - nodemodules:/usr/app/node_modules
-      env_file: .env
+         - /usr/app/node_modules
+      environment:
+         - DATABASE_URL=${DATABASE_URL}
+         - PORT=${PORT}
       depends_on:
          - postgres
+      command: >
+         sh -c "npx prisma generate --config prisma.config.ts &&
+               npx prisma migrate deploy --config prisma.config.ts &&
+               npm run dev"
    
 volumes: 
    nodemodules: {}
